@@ -262,6 +262,8 @@ function maxify(ctx, buffer, nodes, base = 1) {
 class MaxHeadroomCard extends HTMLElement {
   setConfig(config) {
     this._config = { messages: DEFAULT_MESSAGES, persona: PERSONA, language: 'en', ...config };
+    this.toggleAttribute('fill', !!this._config.height);
+    if (this._config.height) this.style.setProperty('--mh-height', this._config.height);
     this._watch = null;
   }
 
@@ -303,10 +305,13 @@ class MaxHeadroomCard extends HTMLElement {
     if (!this.shadowRoot) {
       this.attachShadow({ mode: 'open' }).innerHTML = `
         <style>
-          ha-card { overflow: hidden; position: relative; }
+          ha-card { overflow: hidden; position: relative; background: #000; }
           canvas { display: block; width: 100%; aspect-ratio: 16 / 9; cursor: pointer; }
+          /* height option: fill that height (e.g. a whole panel view), cropping the 16:9 frame instead of leaving a band */
+          :host([fill]) canvas { aspect-ratio: auto; height: var(--mh-height); object-fit: cover; }
           .bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 4px;
                  padding: 4px 8px 4px 16px; background: rgba(0, 0, 0, 0.3); color: #fff; }
+          .name:empty { display: none; }  /* name: "" shows only the video and the talk box */
           .name { flex: 1; font-size: 16px; line-height: 40px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
           input { flex: 2; min-width: 0; background: rgba(0, 0, 0, 0.4); color: #fff; font: inherit;
                   border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 16px; padding: 6px 12px; }

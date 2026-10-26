@@ -54,6 +54,7 @@ A panel view gives him the whole screen.
 | `messages` | built-in jokes | Idle one-liners |
 | `reactions` | people + doors/windows | `[{entity, to?, from?, say: [...]}]`; `[]` turns them off. `{name}` is replaced by the entity's name |
 | `name`, `entity`, `voice` | | Display name, an entity to show, browser voice name |
+| `height` | 16:9 frame | CSS height to fill instead, cropping the frame (e.g. `calc(100dvh - 56px)` in a panel view) |
 
 Browsers only allow sound after a click, so the card starts muted. The first tap unlocks audio, tablets included.
 
